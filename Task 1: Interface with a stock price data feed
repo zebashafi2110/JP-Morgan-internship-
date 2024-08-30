@@ -1,0 +1,50 @@
+class Car:
+    def __init__(self, speed=0):
+        self.speed = speed        # Current speed of the car
+        self.odometer = 0         # Distance driven
+        self.time = 0             # Time in hours for average speed calculation
+
+    def accelerate(self):
+        """Increase the speed of the car by 5."""
+        self.speed += 5
+
+    def brake(self):
+        """Decrease the speed of the car by 5 (not going below 0)."""
+        self.speed = max(0, self.speed - 5)
+
+    def step(self):
+        """Update the odometer and time based on current speed."""
+        self.odometer += self.speed
+        self.time += 1
+
+    def average_speed(self):
+        """Calculate average speed. Returns 0 if time is 0 to avoid division by zero."""
+        return self.odometer / self.time if self.time > 0 else 0
+
+if __name__ == '__main__':
+    my_car = Car()
+    print("I'm a car!")
+
+    while True:
+        action = input("What should I do? [A]ccelerate, [B]rake, "
+                       "show [O]dometer, or show average [S]peed? ").upper()
+
+        # Validating input action
+        if action not in "ABOS" or len(action) != 1:
+            print("I don't know how to do that")
+            continue
+
+        if action == 'A':
+            my_car.accelerate()
+            print("Accelerating...")
+        elif action == 'B':
+            my_car.brake()
+            print("Braking...")
+        elif action == 'O':
+            print("The car has driven {} kilometers".format(my_car.odometer))
+        elif action == 'S':
+            print("The car's average speed was {:.2f} kph".format(my_car.average_speed()))
+
+        # Update the state of the car after each command
+        my_car.step()
+
